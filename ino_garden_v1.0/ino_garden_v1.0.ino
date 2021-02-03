@@ -36,7 +36,7 @@ virtuabotixRTC myRTC(rtcSCLK, rtcIO, rtcCE);
 #define modeSETUP   1
 #define modeNORMAL  2
 
-int mode = 1; //set mode
+int mode = 1; 
 
 
 #define adr1ON    2
@@ -213,7 +213,7 @@ void relayActionRiego(int adrON,int pos,int pin){
     digitalWrite(pin, HIGH);
   }
 }
- //void relay timer
+
 void relayAction(int adrON, int adrOF, int pos, int pin) {
 	myRTC.updateTime();
 	int MinToday = (myRTC.hours * 60) + myRTC.minutes;
@@ -312,7 +312,6 @@ void setRTC() {
 	lcd.clear();
 }
 
-//void ajuste timer
 void setPin() {
 	lcd.clear();
 	lcd.setCursor(0, 0);
@@ -382,7 +381,7 @@ void setupChooseValueTempHumi(int tempNew,int humidity, byte Address){
   delay(150);
 }
 
-//voidajusteriego
+
 void setupChooseValueRiego(int dayNew, int Liters, byte Address){
  dayNew= (EEPROM.read(Address));
  Liters = EEPROM.read(Address + 1);
@@ -415,7 +414,7 @@ void setupChooseValueRiego(int dayNew, int Liters, byte Address){
   EEPROM.write(Address + 1, Liters);
   delay(150);
 }
-//voidajustehora
+
 void setupChooseValue(int HourNew, int MinNew, byte Address, byte Pos) {
 	while (read_LCD_buttons() != btnSELECT) {
 		if (read_LCD_buttons() == btnRIGHT) {
@@ -446,7 +445,7 @@ void setupChooseValue(int HourNew, int MinNew, byte Address, byte Pos) {
 	EEPROM.write(Address + 1, MinNew);
 	delay(150);
 }
-//void ajuste hora 2
+
 void setupChooseValueSetRTC(int HourNew, int MinNew, byte Pos) {
 	while (read_LCD_buttons() != btnSELECT) {
 		if (read_LCD_buttons() == btnRIGHT) {
