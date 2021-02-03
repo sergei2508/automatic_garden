@@ -375,7 +375,7 @@ void setupChooseValueTempHumi(int tempNew,int humidity, byte Address){
    setupShowTemp(tempNew,humidity);
    delay(150);
   }
-    while (read_LCD_buttons() != btnNONE);  // tunggu sampai tombol rilis
+    while (read_LCD_buttons() != btnNONE);
   EEPROM.write(Address, tempNew);
   EEPROM.write(Address + 1, humidity);
   delay(150);
@@ -409,7 +409,7 @@ void setupChooseValueRiego(int dayNew, int Liters, byte Address){
    setupShowIrrigation(dayNew,Liters);
    delay(150);
   }
-    while (read_LCD_buttons() != btnNONE);  // tunggu sampai tombol rilis
+    while (read_LCD_buttons() != btnNONE);
   EEPROM.write(Address, dayNew);
   EEPROM.write(Address + 1, Liters);
   delay(150);
@@ -440,7 +440,7 @@ void setupChooseValue(int HourNew, int MinNew, byte Address, byte Pos) {
 		setupShowValue(HourNew, MinNew, Pos);
 		delay(150);
 	}
-	while (read_LCD_buttons() != btnNONE);  // tunggu sampai tombol rilis
+	while (read_LCD_buttons() != btnNONE);
 	EEPROM.write(Address, HourNew);
 	EEPROM.write(Address + 1, MinNew);
 	delay(150);
@@ -471,7 +471,7 @@ void setupChooseValueSetRTC(int HourNew, int MinNew, byte Pos) {
 		setupShowValue(HourNew, MinNew, Pos);
 		delay(150);
 	}
-	while (read_LCD_buttons() != btnNONE);  // tunggu sampai tombol rilis
+	while (read_LCD_buttons() != btnNONE);
 	myRTC.setDS1302Time(00, MinNew, HourNew, 1, 10, 1, 2014);
 	delay(150);
 }
@@ -487,17 +487,17 @@ void setupShowTemp(int temp, int humedad){
 void setupShowIrrigation(int day, int liter){
 if(day == 1){
         lcd.setCursor(0,1);
-    lcd.print("MON THU SUN    "); //1 4 7
+    lcd.print("MON THU SUN    ");
     lcd.print(liter);
   } 
   else if(day == 2){
         lcd.setCursor(0,1);
-    lcd.print("MON WED FRI SUN"); // 1 3 5 7
+    lcd.print("MON WED FRI SUN");
     lcd.print(liter);
   }
   else if(day == 3){
         lcd.setCursor(0,1);
-    lcd.print("ALL DAYS       "); //1-7
+    lcd.print("ALL DAYS       ");
     lcd.print(liter);
   }
   else{
@@ -517,7 +517,7 @@ void setupShowValue(int Hour, int Min, int Pos) {
 //botones
 
 int read_LCD_buttons(){
-	adc_key_in = analogRead(0);       // read the value from the sensor
+	adc_key_in = analogRead(0);
 
 	if (adc_key_in > 1000) return btnNONE; 
 	if (adc_key_in < 50)   return btnRIGHT;  
@@ -525,7 +525,7 @@ int read_LCD_buttons(){
 	if (adc_key_in < 380)  return btnDOWN; 
 	if (adc_key_in < 555)  return btnLEFT; 
 	if (adc_key_in < 790)  return btnSELECT;  
-	return btnNONE;                // when all others fail, return this.
+	return btnNONE;
 }
 
 void eeprom_write_int(int p_address, int p_value) {
