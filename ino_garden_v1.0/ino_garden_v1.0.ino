@@ -3,31 +3,28 @@
 #include <EEPROM.h>
 #include <virtuabotixRTC.h>
 
-// relay pins
 #define relay1      0
 #define relay2      1
 #define relay3      2
 #define relay4      3
 
-// define pins of RTC module
 #define rtcSCLK     A3
 #define rtcIO       A2
 #define rtcCE       A1
 
 #include <DHT.h>
  
-// Definimos el pin digital donde se conecta el sensor
+
 #define DHTPIN 11
-// Dependiendo del tipo de sensor
+
 #define DHTTYPE DHT11
  
-// Inicializamos el sensor DHT11
+
 DHT dht(DHTPIN, DHTTYPE);
 
-// creation of RTC object
+
 virtuabotixRTC myRTC(rtcSCLK, rtcIO, rtcCE);
 
-// keypad definitions
 #define btnRIGHT    0
 #define btnUP       1
 #define btnDOWN     2
@@ -35,32 +32,31 @@ virtuabotixRTC myRTC(rtcSCLK, rtcIO, rtcCE);
 #define btnSELECT   4
 #define btnNONE     5
 
-// mode definitions
+
 #define modeSETUP   1
 #define modeNORMAL  2
 
 int mode = 1; //set mode
 
-// EEPROM address
+
 #define adr1ON    2
 #define adr1OF    4
 #define adr2ON    6
 #define adr3ON    10
 #define adr4ON    14
-//variables ajuste timer
+
 int eepromMin = 0;
 int eepromHour = 0;
 int eepromday =0;
 int eepromliter =0;
 int eepromTemp =0;
 int eepromHumidity = 0;
-//variables timer
+
 int eepromHourON = 0;
 int eepromHourOF = 0;
 int eepromMinON = 0;
 int eepromMinOF = 0;
 
-//lcd
 LiquidCrystal lcd(8, 9, 4, 5, 6, 7);
 int lcd_key     = 0;
 int adc_key_in  = 0;
@@ -74,16 +70,15 @@ void setup() {
 		pinMode(i, OUTPUT);
 	}
 
-	// activar RTC
+	
 	pinMode(rtcSCLK, OUTPUT);
 	pinMode(rtcIO,   OUTPUT);
 	pinMode(rtcCE,   OUTPUT);
 
 	delay(500);
 
-	// lcd iniciar
 	lcd.begin(16, 2);
- //rth iniciar
+
   dht.begin();
   lcd.setCursor(0, 0);
   lcd.print("MAY BACK");
@@ -95,16 +90,13 @@ void setup() {
 
 void loop() {
   int hum = dht.readHumidity();
-  // Leemos la temperatura en grados centígrados (por defecto)
   int tem = dht.readTemperature();
 	lcd.setCursor(0, 0);
-	//mostrar hora
 	displayTime();
   lcd.print("    ");
   lcd.print(hum);
   lcd.print(" %");
 
-//contenido pantalla
 	lcd.setCursor(0, 1); 
 	lcd.print("L");
 	relayAction(adr1ON, adr1OF, 1, relay1);
@@ -121,7 +113,6 @@ void loop() {
   lcd.print(tem);
   lcd.print(" C");
 
-	// jika user menekan tombol SELECT, masuk menu setting
 
 	if (read_LCD_buttons() == btnSELECT) {
 		while (read_LCD_buttons() == btnSELECT);
@@ -133,11 +124,11 @@ void loop() {
 		while (read_LCD_buttons() == btnNONE);
 		if (read_LCD_buttons() == btnUP) {
 			while (read_LCD_buttons() == btnUP);
-			setRTC();   // jika user menekan tombol UP, masuk menu setting RTC
+			setRTC(); 
 		}
 		else if (read_LCD_buttons() == btnDOWN) {
 			while (read_LCD_buttons() == btnDOWN);
-			setPin();   // jika user menekan tombol DOWN, masuk menu setting PIN
+			setPin(); 
 		}
     else if (read_LCD_buttons() == btnRIGHT){
       while (read_LCD_buttons() == btnRIGHT);
@@ -275,8 +266,6 @@ delay(1000);
 lcd.clear();
 }
 
-
-//void ajuste riego
 void setIrrigation(){
 lcd.clear();
 lcd.setCursor(0,0);
@@ -296,7 +285,6 @@ lcd.print("SETTINGS SAVED        ");
 delay(1000);
 lcd.clear();
 }
-//void ajuste hora
 
 void setRTC() {
 
@@ -555,7 +543,6 @@ unsigned int eeprom_read_int(int p_address) {
 
 	return ((lowByte << 0) & 0xFF) + ((highByte << 8) & 0xFF00);
 }
- //void mostrar hora
 void displayTime() {
 	myRTC.updateTime();
 	print2digits(myRTC.hours);
@@ -564,7 +551,6 @@ void displayTime() {
 	lcd.print(":");
 	print2digits(myRTC.seconds);
 }
-//void 2 digitos
 void print2digits(int number) {
 	if (number >= 0 && number < 10)
 		lcd.print('0');
